@@ -1,0 +1,23 @@
+services:
+  database:
+    build:
+      context: db
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - '5432:5432'
+    image: "cfptestregistry007.azurecr.io/cfp_db:latest"
+  app:
+    build:
+      context: rates
+      dockerfile: ./Dockerfile
+    restart: always
+    depends_on:
+      - database
+    links:
+      - database
+    ports:
+      - "3000:3000"
+    image: "cfptestregistry007.azurecr.io/cfp_app:latest"
