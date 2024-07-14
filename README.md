@@ -19,6 +19,7 @@ Windows / Chocolatey
 choco install docker-desktop terraform azure-cli just
 ```
 
+
 or MacOS / Homebrew
 ```bash
 brew tap hashicorp/tap
@@ -103,3 +104,26 @@ terraform destroy
 ```
 
 This will remove all the resources that were created by terraform.
+
+# Conclusion
+
+## Tools used and why
+
+### Docker
+I made use of Docker so that I could virtualize the environment that the application would be running in. This allows for a consistent environment across all machines.
+
+It also allows for ease of deployment, as the application can be run in the same way on any machine that has docker installed.
+
+### Terraform
+I needed to automate the setup of the infrastructure, and Terraform is the best tool for that job. 
+While not specific to Azure like Bicep/ARM templates, it is a tool that I am (slightly) more familiar with and can use across multiple cloud providers.
+
+### Azure CLI
+I made use of the Azure CLI to handle the login process for Azure.
+
+It is a requirement to have some sort of login mechanism, and this provides that
+
+### Just
+I made use of Just to handle the running of the cloud script.
+
+It is also extremely useful in standardizing the way that scripts are run across machines, with good flexibility for tackling complex problems.
