@@ -1,3 +1,5 @@
+import time
+
 import psycopg2
 from datetime import datetime
 
@@ -8,15 +10,27 @@ from werkzeug.exceptions import BadRequest
 import config
 
 
-def get_db_conn(db_config):
-    """ Create a database connection. """
-    return psycopg2.connect(
-        "dbname='{}' user='{}' host='{}'".format(
-            db_config["name"],
-            db_config["user"],
-            db_config["host"]
-        )
-    )
+def get_db_conn(db_config, retries=5, delay=60):
+    attempt = 0
+    while attempt < retries:
+        try:
+            conn = psycopg2.connect(
+                "dbname='{}' user='{}' host='{}'".format(
+                    db_config["name"],
+                    db_config["user"],
+                    db_config["host"]
+                )
+            )
+            return conn
+        except psycopg2.OperationalError as e:
+            attempt += 1
+            print(f"Attempt {attempt} failed: {e}")
+            if attempt < retries:
+                print(f"Retrying in {delay} seconds...")
+                time.sleep(delay)
+            else:
+                print("Max retries reached. Could not connect to the database.")
+                raise
 
 
 def create_app():
