@@ -94,8 +94,15 @@ terraform apply tfplan
 
 This will create the resources in Azure, and you will be able to access the application at the public IP address that is outputted at the end of the apply process.
 
+Lookout for the `$public_ip_address` in the output, and then you can access the application at:
+```bash
+$public_ip_address:3000/rates?date_from=2021-01-01&date_to=2021-01-31&orig_code=CNGGZ&dest_code=EETLL
+```g
+
 > [!WARNING]
 > You will need to wait about 5 minutes for the VM resources to be fully created and the containers to start up.
+
+---
 
 ### Cleaning up
 Cleaning up all your cloud resources is as easy as running:
