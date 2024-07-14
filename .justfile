@@ -9,3 +9,19 @@ set windows-shell := ["cmd.exe", "/C"]
 
 @build_db:
     docker build db/ -t cfptestregistry007.azurecr.io/cfp_db:latest
+	
+@compose:
+	docker-compose up -d
+	
+@down:
+	docker-compose down
+	
+[windows]
+@run_cloud:
+	run.bat
+	terraform apply tfplan
+	
+[unix]
+@run_cloud:
+	./run.sh
+	terraform apply tfplan
